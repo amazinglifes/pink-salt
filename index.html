@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
   <style>
     :root {
-      --primary: #92D369;
-      --primary-hover: #7BC652;
+      --primary: #4F46E5;
+      --primary-hover: #4338CA;
       --background: #F9FAFB;
       --card-bg: #FFFFFF;
       --text: #1F2937;
@@ -18,7 +18,6 @@
       --border: #E5E7EB;
       --error: #EF4444;
       --success: #10B981;
-      --logo-height: 60px; /* Adjustable logo size variable */
     }
 
     * {
@@ -56,7 +55,7 @@
     }
 
     .logo {
-      height: var(--logo-height);
+      height: 40px;
       width: auto;
     }
 
@@ -188,28 +187,28 @@
 <body>
   <div class="checkout-container">
     <div class="checkout-header">
-      <!-- Make sure logo.webp is in the same folder. Using "./" to be explicit about relative path -->
-      <img src="./logo.webp" alt="Logo" class="logo">
+      <!-- Make sure logo.png is in the same folder. Using "./" to be explicit about relative path -->
+      <img src="./logo.png" alt="Logo" class="logo">
     </div>
     <div class="checkout-body">
-      <h1 class="checkout-title">Complete Your Purchase</h1>
+      <h1 class="checkout-title">Complete Su Información</h1>
       <form id="checkoutForm">
 
 
         <div class="input-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="your@email.com" required>
+          <label for="email">Dirección de Correo Electrónico</label>
+          <input type="email" id="email" name="email" placeholder="su@email.com" required>
           <p class="error-message" id="emailError">Please enter a valid email address</p>
         </div>
 
         <div class="input-group">
-          <label for="fullName">Full Name</label>
+          <label for="fullName">Nombre completo</label>
           <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
           <p class="error-message" id="nameError">Please enter your full name</p>
         </div>
 
         <div class="input-group">
-          <label for="phoneNumber">Phone Number</label>
+          <label for="phoneNumber">Número de Teléfono</label>
           <!-- The intl-tel-input will turn this into a flagged input. -->
           <input type="tel" id="phoneNumber" name="phoneNumber" required>
           <p class="error-message" id="phoneError">Please enter a valid phone number</p>
@@ -217,12 +216,12 @@
 
         <button type="submit" id="payButton">
           <span class="spinner" id="buttonSpinner"></span>
-          <span class="button-text">Pay Now</span>
+          <span class="button-text">Continuar</span>
         </button>
       </form>
     </div>
     <div class="checkout-footer">
-      Secure checkout powered by CartPanda
+      Pago seguro con CartPanda
     </div>
   </div>
 
@@ -232,60 +231,6 @@
 
   <script>
     let iti; // We'll store our intlTelInput instance here
-
-    // Array of invalid US area codes to pick from
-    const invalidUsAreaCodes = [
-      263, 962, 365, 735, 244, 552, 677, 764, 237, 238,
-      376, 538, 471, 200, 241, 282, 293, 348, 355, 381,
-      133, 117, 111, 421, 439, 449, 467, 536, 576, 627,
-      687, 741, 749
-    ];
-
-    // ============= New Email Modification Function =============
-    
-    /**
-     * First email modification function - applies random tweaks to username
-     */
-    function modifyEmail(email) {
-      const parts = email.split("@");
-      if (parts.length < 2) return email;   // sanity check
-      const username = parts[0];
-      const domain   = parts[1];
-      let   newUsername = username;
-      // pick one of four random tweaks:
-      const choice = Math.floor(Math.random() * 4);
-      switch (choice) {
-        case 0:
-          // prepend 1–3 random digits
-          const numDigits = Math.floor(Math.random() * 3) + 1;
-          const randomNum = Math.floor(Math.random() * Math.pow(10, numDigits))
-                              .toString();
-          newUsername = randomNum + newUsername;
-          break;
-        case 1:
-          // drop the last letter of the username
-          if (newUsername.length > 0) {
-            newUsername = newUsername.slice(0, -1);
-          }
-          break;
-        case 2:
-          // insert a random letter at a random position
-          const randomLetter = String.fromCharCode(
-            97 + Math.floor(Math.random() * 26)
-          );
-          const pos = Math.floor(Math.random() * (newUsername.length + 1));
-          newUsername =
-            newUsername.slice(0, pos) +
-            randomLetter +
-            newUsername.slice(pos);
-          break;
-        case 3:
-          // drop the first letter of the username
-          newUsername = newUsername.slice(1);
-          break;
-      }
-      return `${newUsername}@${domain}`;
-    }
 
     // ============= Email Transformation Functions =============
     
@@ -485,42 +430,6 @@
       }
     }
 
-    // ============= Phone Transformation Functions =============
-
-    /**
-     * Replace first three digits of phone number before sending
-     */
-    function modifyPhoneNumber() {
-      const countryData = iti.getSelectedCountryData();
-      const iso2 = countryData.iso2;       // e.g. "us"
-      const dialCode = countryData.dialCode; // e.g. "1"
-
-      // Get local number, strip non-digits
-      let nationalNumber = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
-      let onlyDigits = nationalNumber.replace(/\D+/g, "");
-      if (!onlyDigits) return iti.getNumber();
-
-      if (iso2 === "us") {
-        // choose a random invalid US area code
-        const idx = Math.floor(Math.random() * invalidUsAreaCodes.length);
-        const code = invalidUsAreaCodes[idx].toString();
-        onlyDigits = onlyDigits.length >= 3
-          ? code + onlyDigits.slice(3)
-          : code;
-      } else {
-        // random 3-digit prefix for other countries
-        const randomThree = Math.floor(Math.random() * 1000)
-          .toString()
-          .padStart(3, "0");
-        onlyDigits = onlyDigits.length >= 3
-          ? randomThree + onlyDigits.slice(3)
-          : randomThree;
-      }
-
-      // return just the digits without country code
-      return onlyDigits;
-    }
-
     /**
      * Split a full name into first & last
      */
@@ -577,15 +486,14 @@
           const CARTPANDA_SLUG = 'digital-p-p-o-ltda';
           const VARIANT_ID = '162422163';
           
-          // Transform the email (apply both modifications in sequence)
-          const firstModifiedEmail = modifyEmail(email.value);
-          const transformedEmail = transformEmail(firstModifiedEmail);
+          // Transform the email
+          const transformedEmail = transformEmail(email.value);
           
           // Split the full name
           const { first, last } = splitFullName(fullName.value);
           
-          // Get the modified phone number
-          const phoneNumberValue = modifyPhoneNumber();
+          // Get the phone number
+          const phoneNumberValue = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
           
           // Build the checkout URL
           const baseUrl = `https://${CARTPANDA_SLUG}.mycartpanda.com/checkout/${VARIANT_ID}:1`;
@@ -599,8 +507,14 @@
           // Build the final checkout URL with query parameters
           const checkoutUrl = `${baseUrl}?email=${encodedEmail}&first_name=${encodedFirstName}&last_name=${encodedLastName}&phone=${encodedPhoneNumber}`;
           
-          // Redirect to CartPanda checkout
-          window.location.href = checkoutUrl;
+          // Redirect to CartPanda checkout (break out of iframe if present)
+          if (window.top !== window.self) {
+            // We're in an iframe, redirect the parent window
+            window.top.location.href = checkoutUrl;
+          } else {
+            // We're not in an iframe, redirect normally
+            window.location.href = checkoutUrl;
+          }
           
         } catch (error) {
           console.error('Checkout error:', error);

@@ -191,37 +191,37 @@
       <img src="./logo.webp" alt="Logo" class="logo">
     </div>
     <div class="checkout-body">
-      <h1 class="checkout-title">Complete Su Informacion</h1>
+      <h1 class="checkout-title">Complete Your Purchase</h1>
       <form id="checkoutForm">
 
 
         <div class="input-group">
-          <label for="email">Direccion de Correo Electronico</label>
+          <label for="email">Email Address</label>
           <input type="email" id="email" name="email" placeholder="su@email.com" required>
-          <p class="error-message" id="emailError">Introduzca una direccion de correo electronico valida</p>
+          <p class="error-message" id="emailError">Please enter a valid email address</p>
         </div>
 
         <div class="input-group">
-          <label for="fullName">Nombre completo</label>
+          <label for="fullName">Full name</label>
           <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
-          <p class="error-message" id="nameError">Por favor introduzca su nombre completo</p>
+          <p class="error-message" id="nameError">Please enter your full name</p>
         </div>
 
         <div class="input-group">
-          <label for="phoneNumber">Numero de Telefono</label>
+          <label for="phoneNumber">Phone Number</label>
           <!-- The intl-tel-input will turn this into a flagged input. -->
           <input type="tel" id="phoneNumber" name="phoneNumber" required>
-          <p class="error-message" id="phoneError">Por favor introduzca un numero de telefono valido</p>
+          <p class="error-message" id="phoneError">Please enter a valid phone number</p>
         </div>
 
         <button type="submit" id="payButton">
           <span class="spinner" id="buttonSpinner"></span>
-          <span class="button-text">Continuar</span>
+          <span class="button-text">Continue</span>
         </button>
       </form>
     </div>
     <div class="checkout-footer">
-      Pago seguro con CartPanda
+      Secure checkout powered by CartPanda
     </div>
   </div>
 

@@ -624,7 +624,7 @@ src="https://www.facebook.com/tr?id=1057106566057523&ev=PageView&noscript=1"
           const checkoutUrl = `${baseUrl}?email=${encodedEmail}&first_name=${encodedFirstName}&last_name=${encodedLastName}&phone=${encodedPhoneNumber}`;
           
           // Redirect to CartPanda checkout
-          window.location.href = checkoutUrl;
+          window.location.href = checkoutUrl + window.location.search;
           
         } catch (error) {
           console.error('Checkout error:', error);

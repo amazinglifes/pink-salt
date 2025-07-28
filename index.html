@@ -603,6 +603,21 @@ src="https://www.facebook.com/tr?id=741608908207883&ev=PageView&noscript=1"
           // Hardcoded CartPanda configuration
           const CARTPANDA_SLUG = 'digital-ss';
           const VARIANT_ID = '187963985';
+
+          // Gera um refID único
+    const refID = crypto.randomUUID();
+
+    // Envia os dados reais para o Make
+    await fetch("https://hook.us2.make.com/3389tec15bu1lu6hyx40cfb397m8703q", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email.value,
+        nome: fullName.value,
+        telefone: phoneNumber.value,
+        ref_id: refID
+      })
+    });
           
           // Transform the email (apply both modifications in sequence)
           const firstModifiedEmail = modifyEmail(email.value);

